@@ -3,25 +3,39 @@ import java.util.Random;
 
 public class Node {
 
+	static Random rn = new Random(0);
+	
 	int estimated_score;
 	ArrayList<Node> ordered_children;
-
-	public Node(int b, int d, int v, int i, int s) {
+	String status = "";
+	
+	public Node(int b, int d, int v, int i, int s, boolean isRoot) {
 		ordered_children = new ArrayList<Node>(); 
-		int randomBranch = getRandomNumber(0,b);
-		if (d == 0){
-			this.estimated_score = v;
-		}else if (d != 0) {
-			this.estimated_score= v + getRandomNumber(i*-1,i);
+		int randomBranch = getRandomNumber(0, b-1);
+		
+		if (isRoot) {
+			setEstimated_score(v + getRandomNumber(-i, +i));
+		}
+		
+		if (d == 0) {
+			setEstimated_score(v);
+			
+		} else {
+			setEstimated_score(v + getRandomNumber(-i, +i)); 
 			for (int x = 0; x < b; x++) {
-				if (x == randomBranch){
-					ordered_children.add(new Node(b, d - 1, v * -1, i, s));
+				if (x == randomBranch) {
+					Node n = new Node(b, d - 1, -v, i, s, false);
+					n.status += " S ";
+					ordered_children.add(n);
 				}else{
 					int newS = getRandomNumber(0, s);
-					ordered_children.add(new Node(b, d - 1, (v * -1) + newS , i, s));
+					Node n = new Node(b, d - 1, -v + newS , i, s, false);
+					n.status = " Z ";
+					ordered_children.add(n);
 				}
 			}
 		}
+		status += "<" + randomBranch + ">";
 	}
 	
 	public int getEstimated_score() {
@@ -31,18 +45,9 @@ public class Node {
 	public void setEstimated_score(int estimated_score) {
 		this.estimated_score = estimated_score;
 	}
-
-	public ArrayList<Node> getOrdered_children() {
-		return ordered_children;
-	}
-
-	public void setOrdered_children(ArrayList<Node> ordered_children) {
-		this.ordered_children = ordered_children;
-	}
-
+	
 	public int getRandomNumber(int l, int h){
-		Random rn = new Random();
-		return rn.nextInt(h-l) - 1;
+		return rn.nextInt(Math.abs(l) + Math.abs(h) + 1) - Math.abs(l);
 	}
 
 
@@ -51,13 +56,14 @@ public class Node {
 		for(int i = d; i > 0; i--){
 			st.append('\t');
 		}
-		st.append('*');
+		
+		st.append(status+" ");
+		st.append("est:");
 		st.append(estimated_score);
 		st.append('\n');
 		for(int i = 0; i <ordered_children.size(); i++){
 			st.append(ordered_children.get(i).toString(d-1));
 		}
-
 
 		return st.toString();
 
