@@ -8,8 +8,9 @@ public class IterativeDeepeningPVR extends NegamaxNode {
 	public int searchAlgorithm(Node n,int depth){
 		int alpha =-2147483648;
 		int beta = 2147483647;
-		int score = computeNegamax(, score, score, score, false);
-		
+		int score = computeNegamax(n, depth, alpha, beta, false);
+		depth++;
+		return score;
 	}
 
 }
