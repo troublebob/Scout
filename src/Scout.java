@@ -10,14 +10,14 @@ public class Scout extends NegamaxNode {
 		int newAlpha = midpoint -1;
 		int newBeta = midpoint + 1;
 		int v = computeNegamax(n, depth, newAlpha, newBeta, printing);
-		if(v > newAlpha && v<= midpoint ){
-			return midpoint;
+		if(v > midpoint -1 && v <= midpoint){
+			return v;
 		}
 
-		if(v < 0){
-			return computeScout(n, depth, alpha, newBeta, printing);
+		if(v < midpoint){
+			return computeScout(n, depth, alpha, midpoint, printing);
 		} else {
-		return computeScout(n, depth, newAlpha, beta, printing);
+		return computeScout(n, depth, midpoint, beta, printing);
 		}
 	}
 }

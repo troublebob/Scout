@@ -7,7 +7,6 @@ public class Node {
 	
 	int estimated_score;
 	ArrayList<Node> ordered_children;
-	String status = "";
 	
 	public Node(int b, int d, int v, int i, int s, boolean isRoot) {
 		ordered_children = new ArrayList<Node>(); 
@@ -25,17 +24,14 @@ public class Node {
 			for (int x = 0; x < b; x++) {
 				if (x == randomBranch) {
 					Node n = new Node(b, d - 1, -v, i, s, false);
-					n.status += " S ";
 					ordered_children.add(n);
 				}else{
 					int newS = getRandomNumber(0, s);
 					Node n = new Node(b, d - 1, -v + newS , i, s, false);
-					n.status = " Z ";
 					ordered_children.add(n);
 				}
 			}
 		}
-		status += "<" + randomBranch + ">";
 	}
 	
 	public int getEstimated_score() {
@@ -57,7 +53,7 @@ public class Node {
 			st.append('\t');
 		}
 		
-		st.append(status+" ");
+		//st.append(status+" ");
 		st.append("est:");
 		st.append(estimated_score);
 		st.append('\n');

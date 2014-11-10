@@ -1,16 +1,21 @@
 public class NegamaxNode extends Node {
 
 	static int numberOfEvals = 0;
-	
-	
+		
 	public NegamaxNode(int b, int d, int v, int i, int s, boolean isRoot) {
 		super(b, d, v, i, s, isRoot);
+	}
+	public int getNumberOfEvals(){
+		return numberOfEvals;
+	}
+	public void resetEvals(){
+		numberOfEvals = 0;
 	}
 	public int computeNegamax(Node n, int depth, int alpha,int beta, boolean printing){
 		if( depth == 0){
 		    numberOfEvals++;
 		    if(printing){
-		    	System.out.println(printInfo(n, depth, alpha, beta, "Static"));
+		    	System.out.println(printInfo(n, depth, alpha, beta, "Search"));
 		    }
 			return n.estimated_score;
 		}
@@ -33,7 +38,7 @@ public class NegamaxNode extends Node {
 	public String printInfo(Node n,int depth, int alpha, int beta, String method){
 		
 		return ("Depth="+ depth + " Node:Estimated Score="+ n.estimated_score+" Alpha="+alpha + " Beta=" + beta + 
-				" Method="+ method);
+				" Method="+ method + " Number Of Evals=" + numberOfEvals);
 	}
 
 }
